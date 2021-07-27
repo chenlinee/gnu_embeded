@@ -19,8 +19,9 @@ SECTIONS
     .text :
     {
         *startup.o(.text)
-        *(.text)
-        *(.rodata)
+        *main.o(.text)
+        *(.text .text.*)
+        *(.rodata .rodata.*)
         _text_end = .;
     } > M_ROM
 
