@@ -5,8 +5,8 @@ C_OBJ:=$(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(C_SRC)))
 
 ALL : $(AS_OBJ) $(C_OBJ)
 
-$(AS_OBJ) : $(AS_SRC)
+$(addprefix $(OBJ_DIR)/, %.o) : %.s
 	$(AS) $(AS_FLAGS) -c $^ -o $@
 
-$(C_OBJ) : $(C_SRC)
+$(addprefix $(OBJ_DIR)/, %.o) : %.c
 	$(CC) $(C_FLAGS) -c $^ -o $@
