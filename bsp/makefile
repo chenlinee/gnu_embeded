@@ -9,4 +9,4 @@ $(addprefix $(OBJ_DIR)/, %.o) : %.s
 	$(AS) $(AS_FLAGS) -c $^ -o $@
 
 $(addprefix $(OBJ_DIR)/, %.o) : %.c
-	$(CC) $(C_FLAGS) -c $^ -o $@
+	$(CC) $(C_INC) $(C_FLAGS) -c $^ -o $@

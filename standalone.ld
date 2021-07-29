@@ -20,8 +20,8 @@ SECTIONS
     {
         *startup.o(.text)
         *main.o(.text)
-        *(.text .text.*)
-        *(.rodata .rodata.*)
+        *(.text*)
+        *(.rodata*)
         _text_end = .;
     } > M_ROM
 
@@ -29,7 +29,7 @@ SECTIONS
     _DATA_ROM_START = .;
     .data : AT ( _text_end )
     {
-        *(.data)
+        *(.data*)
     } > M_RAM
     _DATA_ROM_END = .;
     _DATA_LEN = _DATA_ROM_END - _DATA_ROM_START;

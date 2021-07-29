@@ -3,14 +3,15 @@ export CC=$(ARM_PATH)gcc
 export AS=$(ARM_PATH)as
 export LD=$(ARM_PATH)ld
 OBJCOPY=$(ARM_PATH)objcopy
-export C_FLAGS=-Wall -O0 -std=c99 -nodefaultlibs -nostdlib -nostartfiles -march=armv7-m -mtune=cortex-m3 -mthumb -g
-export C_FLAGS+=-I drivers
+export C_FLAGS=-Wall -O0 -std=c99 -nodefaultlibs -nostdlib -nostartfiles -march=armv7-m -mtune=cortex-m3 -mthumb -g -funsigned-char
 export AS_FLAGS=--warn -march=armv7-m -mcpu=cortex-m3 -mthumb -g
 OBJFLAGS=-j .isr_vector -j .text -j .data --set-section-flags .isr_vector=alloc,load,contents --set-section-flags .bss=alloc,load,contents
 
 COMPILE_DIR=bsp src drivers
 ROOT=$(shell pwd)
 export OBJ_DIR=$(ROOT)/build/objs
+
+export C_INC=-I $(ROOT)/drivers
 
 LIBGCC=${shell ${CC} -mthumb -march=armv7-m -print-libgcc-file-name}
 LIBC=${shell ${CC} -mthumb -march=armv7-m -print-file-name=libc.a}
@@ -37,8 +38,14 @@ rebuild : clean build
 clean : 
 	-rm -r build/*
 
-qemu :
+qemu-debug :
 	qemu-system-arm -machine lm3s6965evb \
 			-cpu cortex-m3 -nographic \
 			-gdb tcp::12345 \
 			-S -kernel build/ciios.bin
+
+qemu :
+	qemu-system-arm -machine lm3s6965evb \
+			-cpu cortex-m3 -nographic \
+			-gdb tcp::12345 \
+			-kernel build/ciios.bin
