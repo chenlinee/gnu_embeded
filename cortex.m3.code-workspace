@@ -6,7 +6,10 @@
 	],
 	"settings": {
 		"files.associations": {
-			"sysctl.h": "c"
+			"sysctl.h": "c",
+			"hw_types.h": "c",
+			"stdlib.h": "c",
+			"_timer.h": "c"
 		}
 	}
 }

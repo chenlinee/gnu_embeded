@@ -29,11 +29,11 @@ SECTIONS
     _DATA_ROM_START = .;
     .data : AT ( _text_end )
     {
+        _DATA_RAM_START = .;
         *(.data*)
+        _DATA_RAM_END = .;
     } > M_RAM
-    _DATA_ROM_END = .;
-    _DATA_LEN = _DATA_ROM_END - _DATA_ROM_START;
-    _DATA_RAM_START = ORIGIN(M_RAM);
+    _DATA_LEN = _DATA_RAM_END - _DATA_RAM_START;
 
     . = ALIGN(4);
     _BSS_START = .;

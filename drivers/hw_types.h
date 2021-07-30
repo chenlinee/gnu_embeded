@@ -43,6 +43,23 @@ typedef unsigned char tBoolean;
 #define false 0
 #endif
 
+#undef NULL
+#if defined(__cplusplus)
+#define NULL 0
+#else
+#define NULL ((void *)0)
+#endif
+
+typedef unsigned long long uint64_t;
+typedef unsigned int    uint32_t;
+typedef unsigned short  uint16_t;
+typedef unsigned char   uint8_t;
+
+typedef long long int64_t;
+typedef int     int32_t;
+typedef short   int16_t;
+typedef char    int8_t;
+
 //*****************************************************************************
 //
 // Macros for hardware access, both direct and via the bit-band region.

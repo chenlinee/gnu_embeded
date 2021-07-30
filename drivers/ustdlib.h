@@ -40,6 +40,16 @@ extern "C"
 extern int usprintf(char *, const char *pcString, ...);
 extern int usnprintf(char *pcBuf, unsigned long ulSize,
                      const char *pcString, ...);
+void os_printf(void);
+
+#define os_print_buf_len   0x100
+extern char os_print_buf[os_print_buf_len];
+
+#define uart_printf(format, args...)    do \
+                                    { \
+                                        usnprintf(os_print_buf, os_print_buf_len - 1, format, ##args); \
+                                        os_printf(); \
+                                    }  while(0)
 
 #ifdef __cplusplus
 }
