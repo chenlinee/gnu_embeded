@@ -3,7 +3,7 @@ AS_OBJ:=$(addprefix $(OBJ_DIR)/, $(patsubst %.s, %.o, $(AS_SRC)))
 C_SRC:=$(wildcard *.c)
 C_OBJ:=$(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(C_SRC)))
 
-COMPILE_DIR=src
+COMPILE_DIR=portable
 
 .PHONY: $(COMPILE_DIR)
 

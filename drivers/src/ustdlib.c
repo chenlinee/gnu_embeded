@@ -38,19 +38,6 @@
 //
 //*****************************************************************************
 
-//*****************************************************************************
-//
-// ciios_printf, use uart0, max len 0xFF
-//
-//*****************************************************************************
-char os_print_buf[os_print_buf_len] = {0};
-void os_printf(void)
-{
-    for(int i = 0; os_print_buf[i] != 0; ++i)
-    {
-        UARTCharPut(UART0_BASE, os_print_buf[i]);
-    }
-}
 
 
 //*****************************************************************************
@@ -680,6 +667,43 @@ int iRet;
     //
     return(iRet);
 }
+
+//*****************************************************************************
+//
+// ciios_printf, use uart0, max len 0xFF
+//
+//*****************************************************************************
+int os_printf(const char *pcString, ...)
+{
+    char os_print_buf[OS_PRINT_BUF_LEN] = {0};
+    int iRet;
+    va_list vaArgP;
+
+    //
+    // Start the varargs processing.
+    //
+    va_start(vaArgP, pcString);
+
+    //
+    // Call vsnprintf to perform the conversion.
+    //
+    iRet = uvsnprintf(os_print_buf, OS_PRINT_BUF_LEN - 1, pcString, vaArgP);
+
+    //
+    // End the varargs processing.
+    //
+    va_end(vaArgP);
+
+    for(int i = 0; i < iRet; ++i)
+    {
+        UARTCharPut(UART0_BASE, os_print_buf[i]);
+    }
+    //
+    // Return the conversion count.
+    //
+    return(iRet);
+}
+
 
 //*****************************************************************************
 //

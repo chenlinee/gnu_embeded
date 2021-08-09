@@ -50,10 +50,20 @@ typedef unsigned char tBoolean;
 #define NULL ((void *)0)
 #endif
 
+#define _UINT8_T_DECLARED
+#define _UINT16_T_DECLARED
+#define _UINT32_T_DECLARED
+#define _UINT64_T_DECLARED
+
 typedef unsigned long long uint64_t;
 typedef unsigned int    uint32_t;
 typedef unsigned short  uint16_t;
 typedef unsigned char   uint8_t;
+
+#define _INT8_T_DECLARED
+#define _INT16_T_DECLARED
+#define _INT32_T_DECLARED
+#define _INT64_T_DECLARED
 
 typedef long long int64_t;
 typedef int     int32_t;

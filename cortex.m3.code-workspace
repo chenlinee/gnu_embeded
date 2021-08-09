@@ -9,7 +9,9 @@
 			"sysctl.h": "c",
 			"hw_types.h": "c",
 			"stdlib.h": "c",
-			"_timer.h": "c"
+			"_timer.h": "c",
+			"ustdlib.h": "c",
+			"lm3sxxxx.h": "c"
 		}
 	}
 }

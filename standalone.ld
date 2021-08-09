@@ -1,49 +1,60 @@
-ENTRY(Reset_Handler)
+/******************************************************************************
+ *
+ * standalone.ld - Linker script for applications using startup.c and
+ *                 DriverLib.
+ *
+ * Copyright (c) 2005-2007 Luminary Micro, Inc.  All rights reserved.
+ * 
+ * Software License Agreement
+ * 
+ * Luminary Micro, Inc. (LMI) is supplying this software for use solely and
+ * exclusively on LMI's microcontroller products.
+ * 
+ * The software is owned by LMI and/or its suppliers, and is protected under
+ * applicable copyright laws.  All rights are reserved.  Any use in violation
+ * of the foregoing restrictions may subject the user to criminal sanctions
+ * under applicable laws, as well as to civil liability for the breach of the
+ * terms and conditions of this license.
+ * 
+ * THIS SOFTWARE IS PROVIDED "AS IS".  NO WARRANTIES, WHETHER EXPRESS, IMPLIED
+ * OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE APPLY TO THIS SOFTWARE.
+ * LMI SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR
+ * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
+ * 
+ * This is part of revision 1392 of the Stellaris Peripheral Driver Library.
+ *
+ *****************************************************************************/
 
 MEMORY
 {
-    M_ISR : ORIGIN = 0x00000000, LENGTH = 0x00000400
-    M_ROM : ORIGIN = 0x00000400, LENGTH = 0x0003FC00
-    M_RAM : ORIGIN = 0x20000000, LENGTH = 0x00010000
+    FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 256K
+    SRAM (rwx) : ORIGIN = 0x20000000, LENGTH = 64K
 }
 
 SECTIONS
 {
-    . = ALIGN(4);
-    .isr_vector :
-    {
-        *startup.o(.isr_vector)
-    } > M_ISR
-
-    . = ALIGN(4);
     .text :
     {
-        *startup.o(.text)
-        *main.o(.text)
+        KEEP(*(.isr_vector))
         *(.text*)
         *(.rodata*)
-        _text_end = .;
-    } > M_ROM
+        _etext = .;
+    } > FLASH
 
-    . = ALIGN(4);
-    _DATA_ROM_START = .;
-    .data : AT ( _text_end )
+    .data : AT (ADDR(.text) + SIZEOF(.text))
     {
-        _DATA_RAM_START = .;
+        _data = .;
+        *(vtable)
         *(.data*)
-        _DATA_RAM_END = .;
-    } > M_RAM
-    _DATA_LEN = _DATA_RAM_END - _DATA_RAM_START;
+        _edata = .;
+    } > SRAM
 
-    . = ALIGN(4);
-    _BSS_START = .;
     .bss :
     {
-        *(.bss COMMON)
-    } > M_RAM
-    _BSS_END = .;
-    _BSS_LEN = _BSS_END - _BSS_START;
-
-    _BSS_RAM_START = _DATA_RAM_START + _DATA_LEN;
-    _MSP = ORIGIN(M_RAM) + LENGTH(M_RAM);
+        _bss = .;
+        *(.bss*)
+        *(COMMON)
+        _ebss = .;
+    } > SRAM
 }

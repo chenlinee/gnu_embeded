@@ -53,7 +53,7 @@
 #include "cpu.h"
 #include "debug.h"
 #include "ethernet.h"
-#include "flash.h"
+#include "_flash.h"
 #include "gpio.h"
 #include "hibernate.h"
 #include "i2c.h"
@@ -63,7 +63,7 @@
 #include "ssi.h"
 #include "sysctl.h"
 #include "systick.h"
-#include "timer.h"
+#include "_timer.h"
 #include "uart.h"
 #include "watchdog.h"
 

@@ -1,4 +1,4 @@
-ARM_PATH=/usr/local/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-
+ARM_PATH=/home/ciichen/lib/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-
 export CC=$(ARM_PATH)gcc
 export AS=$(ARM_PATH)as
 LD=$(ARM_PATH)ld
@@ -7,15 +7,14 @@ export C_FLAGS=-Wall -O0 -std=c99 -nodefaultlibs -nostdlib -nostartfiles -march=
 export AS_FLAGS=--warn -march=armv7-m -mcpu=cortex-m3 -mthumb -g
 OBJFLAGS=-j .isr_vector -j .text -j .data --set-section-flags .isr_vector=alloc,load,contents --set-section-flags .bss=alloc,load,contents
 
-COMPILE_DIR=bsp src drivers
+COMPILE_DIR=bsp src drivers freertos
 ROOT=$(shell pwd)
 export OBJ_DIR=$(ROOT)/build/objs
 
-export C_INC=-I $(ROOT)/drivers -I $(ROOT)/inc
-
+export C_INC=-I $(ROOT)/drivers/inc -I $(ROOT)/inc -I $(ROOT)/freertos/include -I $(ROOT)/freertos/portable
 LIBGCC=${shell ${CC} -mthumb -march=armv7-m -print-libgcc-file-name}
 LIBC=${shell ${CC} -mthumb -march=armv7-m -print-file-name=libc.a}
-LIBS=$(ROOT)/drivers/libdriver.a
+LIBS=$(ROOT)/drivers/lib/libdriver.a
 
 .PHONY: build link $(COMPILE_DIR) mk_build_dir rebuild clean qemu
 
@@ -39,7 +38,7 @@ clean :
 	-rm -r build/*
 
 qemu-debug :
-	qemu-system-arm -machine lm3s6965evb \
+	@qemu-system-arm -machine lm3s6965evb \
 			-cpu cortex-m3 -nographic \
 			-gdb tcp::12345 \
 			-S -kernel build/ciios.bin
@@ -47,6 +46,6 @@ qemu-debug :
 # uart0, uart1
 # -serial /dev/pts/5 -serial /dev/pts/6
 qemu :
-	qemu-system-arm -machine lm3s6965evb \
+	@qemu-system-arm -machine lm3s6965evb \
 			-cpu cortex-m3 -nographic \
 			-kernel build/ciios.bin
