@@ -53,5 +53,10 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+# global
+GPATH
+GRTAGS
+GTAGS
+
 # special
 !drivers/lib/libdriver.a

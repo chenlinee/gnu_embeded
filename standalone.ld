@@ -25,6 +25,7 @@
  * This is part of revision 1392 of the Stellaris Peripheral Driver Library.
  *
  *****************************************************************************/
+ENTRY(ResetISR)
 
 MEMORY
 {
